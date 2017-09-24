@@ -3,7 +3,7 @@
 //  Yelp
 //
 //  Created by Timothy Lee on 4/23/15.
-//  Copyright (c) 2015 Timothy Lee. All rights reserved.
+//  Copyright (c) 2015 Hetang Shah. All rights reserved.
 //
 
 import UIKit
@@ -16,6 +16,9 @@ class Business: NSObject {
     let distance: String?
     let ratingImageURL: URL?
     let reviewCount: NSNumber?
+    
+    let latitude: Double
+    let longitude: Double
     
     var categoriesArray = [String:String]()
     
@@ -31,6 +34,8 @@ class Business: NSObject {
         
         let location = dictionary["location"] as? NSDictionary
         var address = ""
+        var latitude: Double = -1
+        var longitude: Double = -1
         if location != nil {
             let addressArray = location!["address"] as? NSArray
             if addressArray != nil && addressArray!.count > 0 {
@@ -44,8 +49,14 @@ class Business: NSObject {
                 }
                 address += neighborhoods![0] as! String
             }
+            
+            let latLong = location!["coordinate"] as? NSDictionary
+            latitude = latLong?["latitude"] as? Double ?? -1
+            longitude = latLong?["longitude"] as? Double ?? -1
         }
         self.address = address
+        self.latitude = latitude
+        self.longitude = longitude
         
         let categoriesArray = dictionary["categories"] as? [[String]]
         if categoriesArray != nil {
@@ -90,12 +101,12 @@ class Business: NSObject {
         return businesses
     }
     
-    class func searchWithTerm(latLong:String, term: String?, completion: @escaping ([Business]?, Error?) -> Void) {
-        _ = YelpClient.sharedInstance.searchWithTerm(latLong, term: term, completion: completion)
+    class func searchWithTerm(latLong:String, term: String?, offset: Int?, completion: @escaping ([Business]?, Error?) -> Void) {
+        _ = YelpClient.sharedInstance.searchWithTerm(latLong, term: term, offset: offset, completion: completion)
     }
     
-    class func searchWithTerm(latLong:String, term: String?, sort: YelpSortMode?, categories: [String]?, deals: Bool?, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
-        _ = YelpClient.sharedInstance.searchWithTerm(latLong, term: term, sort: sort, categories: categories, deals: deals, completion: completion)
+    class func searchWithTerm(latLong:String, term: String?, sort: YelpSortMode?, categories: [String]?, deals: Bool?, offset: Int?, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
+        _ = YelpClient.sharedInstance.searchWithTerm(latLong, term: term, sort: sort, categories: categories, deals: deals, offset: offset, completion: completion)
     }
     
     override var description : String {
@@ -106,12 +117,19 @@ class Business: NSObject {
 }
 
 extension Array where Element: Business {
-    func getAllCategories() -> [String: String] {
+    func getAllCategories() -> [YelpCategory] {
         var categories = [String: String]()
+        /**
+         We need to run below loop to remove duplicates.
+         **/
         for business in self {
             categories += business.categoriesArray
         }
-        return categories
+        var result = [YelpCategory]()
+        for category in categories {
+            result.append(YelpCategory(key: category.key, value: category.value, isSelected: true))
+        }
+        return result
     }
 }
 

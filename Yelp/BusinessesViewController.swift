@@ -2,8 +2,8 @@
 //  BusinessesViewController.swift
 //  Yelp
 //
-//  Created by Timothy Lee on 4/23/15.
-//  Copyright (c) 2015 Timothy Lee. All rights reserved.
+//  Created by Hetang Shah on 9/19/17.
+//  Copyright (c) 2015 Hetang Shah. All rights reserved.
 //
 
 import CoreLocation
@@ -26,11 +26,17 @@ class BusinessesViewController: UIViewController, NVActivityIndicatorViewable {
     var presenter: BusinessPresenter = BusinessPresenter()
     
     let searchBar = UISearchBar()
-    var searchTerm: String? = nil
+    var searchTerm: String = ""
     
     let locationManager = CLLocationManager()
     var latLong = "37.785771,-122.406165"
     var userLocation: CLLocation = CLLocation(latitude: 37.7833, longitude: -122.4167)
+    var locationSet: Bool = false
+    
+    var filters: Filters?
+    
+    var isMoreDataLoading = false
+    var loadingMoreView:InfiniteScrollActivityView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +48,16 @@ class BusinessesViewController: UIViewController, NVActivityIndicatorViewable {
         
         startAnimating(CGSize(width: 40, height: 40), type: .lineSpinFadeLoader)
         requestLocationPermission()
+        
+        // Set up Infinite Scroll loading indicator
+        let frame = CGRect(x: 0, y: businessTableView.contentSize.height, width: businessTableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        businessTableView.addSubview(loadingMoreView!)
+        
+        var insets = businessTableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        businessTableView.contentInset = insets
         
         /* Example of Yelp search with more search options specified
          Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
@@ -58,7 +74,6 @@ class BusinessesViewController: UIViewController, NVActivityIndicatorViewable {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func populateList(searchTerm: String? = nil) {
@@ -68,8 +83,26 @@ class BusinessesViewController: UIViewController, NVActivityIndicatorViewable {
             self.businessTableView.reloadData()
             let allAnnotations = self.businessMapView.annotations
             self.businessMapView.removeAnnotations(allAnnotations)
+            if let businesses = businessesList {
+                self.addAnnotationsOnMap(businesses: businesses)
+            }
             self.stopAnimating()
+            
+            self.filters = Filters(categories: self.businesses.getAllCategories())
         })
+    }
+    
+    func fetchNextBusinesses() {
+        presenter.fetchNextBusiness(latLong: latLong, searchTerm: searchTerm, completed: { businessesList in
+            if let businesses = businessesList {
+                self.businesses.append(contentsOf: businesses)
+                self.businessTableView.reloadData()
+                self.addAnnotationsOnMap(businesses: businesses)
+            }
+            self.isMoreDataLoading = false
+            self.loadingMoreView!.stopAnimating()
+        })
+        
     }
     
     func goToLocation(location: CLLocation) {
@@ -95,15 +128,37 @@ class BusinessesViewController: UIViewController, NVActivityIndicatorViewable {
         }
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let navigationController = segue.destination as! UINavigationController
+        let filterViewController = navigationController.topViewController as! FilterViewController
+        filterViewController.filters = filters
+    }
+}
+
+extension BusinessesViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = businessTableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - businessTableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && businessTableView.isDragging) {
+                isMoreDataLoading = true
+                
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRect(x: 0, y: businessTableView.contentSize.height, width: businessTableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
+                // ... Code to load more results ...
+                fetchNextBusinesses()
+            }
+        }
+    }
 }
 
 extension BusinessesViewController: UITableViewDelegate, UITableViewDataSource {
@@ -128,60 +183,71 @@ extension BusinessesViewController: UISearchBarDelegate {
         searchBar.delegate = self
         searchBar.showsCancelButton = false
         searchBar.tintColor = UIColor.white
+        searchBar.enablesReturnKeyAutomatically = false
+        
         navigationItem.titleView = searchBar
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchTerm = searchBar.text {
             if(self.searchTerm != searchTerm) {
+                self.businessTableView.setContentOffset(CGPoint.zero, animated: false)
                 populateList(searchTerm: searchTerm)
                 self.searchTerm = searchTerm
             }
         } else {
-            if(searchTerm != nil) {
+            if(searchTerm != "") {
+                self.businessTableView.setContentOffset(CGPoint.zero, animated: false)
                 populateList()
-                searchTerm = nil
+                searchTerm = ""
             }
         }
         searchBar.resignFirstResponder()
     }
-    
-    //    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-    //        searchBar.showsCancelButton = true
-    //        return true
-    //    }
-    
-    //    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-    //
-    //        searchBar.showsCancelButton = false
-    //        searchBar.resignFirstResponder()
-    //        if(searchTerm != nil) {
-    //            populateList()
-    //            searchBar.text = ""
-    //            searchTerm = nil
-    //        }
-    //    }
 }
 
 extension BusinessesViewController: CLLocationManagerDelegate {
     func requestLocationPermission() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
+        locationManager.distanceFilter = 200
+        locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print ("Inside locationManager")
         if let location = manager.location {
             userLocation = location
             latLong = "\(location.coordinate.latitude),\(location.coordinate.longitude)"
         }
-        populateList()
+        
+        if(!locationSet) {
+            locationSet = true
+            populateList()
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print ("location service fail: \(error)")
         populateList()
+    }
+}
+
+extension BusinessesViewController {
+    
+    func addAnnotationOnMap(business: Business) {
+        if(business.latitude != -1 && business.longitude != -1) {
+            let annotation = MKPointAnnotation()
+            let coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: business.latitude, longitude: business.longitude)
+            annotation.coordinate = coordinate
+            annotation.title = business.name ?? ""
+            businessMapView.addAnnotation(annotation)
+        }
+    }
+    
+    func addAnnotationsOnMap(businesses: [Business]) {
+        for business in businesses  {
+            addAnnotationOnMap(business: business)
+        }
     }
 }

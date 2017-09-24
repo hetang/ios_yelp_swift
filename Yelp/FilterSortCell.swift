@@ -1,5 +1,5 @@
 //
-//  FilterTableCell.swift
+//  FilterSortCell.swift
 //  Yelp
 //
 //  Created by Hetang.Shah on 9/23/17.
@@ -8,10 +8,15 @@
 
 import UIKit
 
-class FilterTableCell: UITableViewCell {
-    @IBOutlet weak var categoryLabel: UILabel!
+class FilterSortCell: UITableViewCell {
     
-    @IBOutlet weak var categorySwitch: UISwitch!
+    @IBOutlet weak var sortLabel: UILabel!
+    
+    var sortMode: YelpSortMode! {
+        didSet {
+            sortLabel.text = sortMode.description
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

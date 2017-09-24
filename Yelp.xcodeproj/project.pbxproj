@@ -17,11 +17,16 @@
 		22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */; };
 		31D95BCBCA38716181E686D3 /* Pods_Yelp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C79C0AC126EDAA235847CEA2 /* Pods_Yelp.framework */; };
 		47848697133B87663A122E3D /* Pods_YelpTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1000F3975EB43318C1D4FA /* Pods_YelpTests.framework */; };
+		5B137CAC1F77814800CE7DEC /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B137CAB1F77814800CE7DEC /* InfiniteScrollActivityView.swift */; };
+		5B137CAF1F7791E900CE7DEC /* FilterDistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B137CAE1F7791E900CE7DEC /* FilterDistanceCell.swift */; };
 		5B82B6181F76413C0016F369 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B82B6171F76413C0016F369 /* MapKit.framework */; };
-		5B82B61A1F7723040016F369 /* FilterTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B82B6191F7723040016F369 /* FilterTableCell.swift */; };
+		5B82B61A1F7723040016F369 /* FilterCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B82B6191F7723040016F369 /* FilterCategoryCell.swift */; };
 		5B82B61C1F7726400016F369 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B82B61B1F7726400016F369 /* FilterViewController.swift */; };
+		5B82B61F1F77459F0016F369 /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B82B61E1F77459F0016F369 /* Filters.swift */; };
+		5B82B6211F7751130016F369 /* ImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B82B6201F7751130016F369 /* ImageViewExtensions.swift */; };
 		5B8C97CC1F735F870021E7FA /* BusinessListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8C97CB1F735F870021E7FA /* BusinessListCell.swift */; };
 		5B8C97CF1F7367BB0021E7FA /* BusinessPresenters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8C97CE1F7367BB0021E7FA /* BusinessPresenters.swift */; };
+		5BE7479A1F7770E700445997 /* FilterSortCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE747991F7770E700445997 /* FilterSortCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,11 +54,16 @@
 		22AAAA981AEA0A9700A544AF /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessesViewController.swift; sourceTree = "<group>"; };
 		5871D66103F8E8D78915F798 /* Pods-YelpTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YelpTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YelpTests/Pods-YelpTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5B137CAB1F77814800CE7DEC /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
+		5B137CAE1F7791E900CE7DEC /* FilterDistanceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDistanceCell.swift; sourceTree = "<group>"; };
 		5B82B6171F76413C0016F369 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		5B82B6191F7723040016F369 /* FilterTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableCell.swift; sourceTree = "<group>"; };
+		5B82B6191F7723040016F369 /* FilterCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCategoryCell.swift; sourceTree = "<group>"; };
 		5B82B61B1F7726400016F369 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		5B82B61E1F77459F0016F369 /* Filters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
+		5B82B6201F7751130016F369 /* ImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtensions.swift; sourceTree = "<group>"; };
 		5B8C97CB1F735F870021E7FA /* BusinessListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessListCell.swift; sourceTree = "<group>"; };
 		5B8C97CE1F7367BB0021E7FA /* BusinessPresenters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessPresenters.swift; sourceTree = "<group>"; };
+		5BE747991F7770E700445997 /* FilterSortCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSortCell.swift; sourceTree = "<group>"; };
 		883322706A784248B16F444A /* Pods-Yelp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yelp.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yelp/Pods-Yelp.release.xcconfig"; sourceTree = "<group>"; };
 		9B128C050DE78660DE2A8E75 /* Pods-YelpTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YelpTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YelpTests/Pods-YelpTests.release.xcconfig"; sourceTree = "<group>"; };
 		AA3C5CF4FD317D72ABE2AAC4 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,6 +173,7 @@
 			children = (
 				22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */,
 				5B8C97CB1F735F870021E7FA /* BusinessListCell.swift */,
+				5B137CAB1F77814800CE7DEC /* InfiniteScrollActivityView.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -178,9 +189,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5B137CAD1F7790BB00CE7DEC /* views */ = {
+			isa = PBXGroup;
+			children = (
+				5B82B6191F7723040016F369 /* FilterCategoryCell.swift */,
+				5BE747991F7770E700445997 /* FilterSortCell.swift */,
+				5B137CAE1F7791E900CE7DEC /* FilterDistanceCell.swift */,
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
 		5B82B61D1F7734A90016F369 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5B82B6201F7751130016F369 /* ImageViewExtensions.swift */,
 			);
 			name = extensions;
 			sourceTree = "<group>";
@@ -202,6 +224,7 @@
 				5B8C97C81F7358510021E7FA /* Models */,
 				5B8C97C91F73585D0021E7FA /* API */,
 				5B8C97CA1F7358640021E7FA /* View Controllers */,
+				5B137CAD1F7790BB00CE7DEC /* views */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -209,6 +232,7 @@
 		5B8C97C81F7358510021E7FA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5B82B61E1F77459F0016F369 /* Filters.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -223,7 +247,6 @@
 		5B8C97CA1F7358640021E7FA /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5B82B6191F7723040016F369 /* FilterTableCell.swift */,
 				5B82B61B1F7726400016F369 /* FilterViewController.swift */,
 			);
 			name = "View Controllers";
@@ -300,11 +323,12 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Timothy Lee";
 				TargetAttributes = {
 					222D8A5419CCF9F900D2DB53 = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = CLFL5RF4PS;
 						LastSwiftMigration = 0800;
 					};
 					222D8A6919CCF9F900D2DB53 = {
@@ -470,12 +494,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B82B6211F7751130016F369 /* ImageViewExtensions.swift in Sources */,
+				5B137CAC1F77814800CE7DEC /* InfiniteScrollActivityView.swift in Sources */,
+				5BE7479A1F7770E700445997 /* FilterSortCell.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */,
 				5B8C97CC1F735F870021E7FA /* BusinessListCell.swift in Sources */,
 				5B82B61C1F7726400016F369 /* FilterViewController.swift in Sources */,
-				5B82B61A1F7723040016F369 /* FilterTableCell.swift in Sources */,
+				5B82B61A1F7723040016F369 /* FilterCategoryCell.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,
+				5B137CAF1F7791E900CE7DEC /* FilterDistanceCell.swift in Sources */,
+				5B82B61F1F77459F0016F369 /* Filters.swift in Sources */,
 				5B8C97CF1F7367BB0021E7FA /* BusinessPresenters.swift in Sources */,
 				222D8A5B19CCF9F900D2DB53 /* AppDelegate.swift in Sources */,
 			);
@@ -527,14 +556,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -557,7 +592,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -574,14 +609,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -597,7 +638,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -612,10 +653,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = CLFL5RF4PS;
 				INFOPLIST_FILE = Yelp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.codepath.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yelp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -629,10 +671,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = CLFL5RF4PS;
 				INFOPLIST_FILE = Yelp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.codepath.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yelp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
