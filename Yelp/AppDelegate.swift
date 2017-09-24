@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Timothy Lee. All rights reserved.
 //
 
+import CoreLocation
 import UIKit
 
 @UIApplicationMain

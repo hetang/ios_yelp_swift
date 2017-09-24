@@ -17,6 +17,8 @@ class Business: NSObject {
     let ratingImageURL: URL?
     let reviewCount: NSNumber?
     
+    var categoriesArray = [String:String]()
+    
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
         
@@ -48,9 +50,13 @@ class Business: NSObject {
         let categoriesArray = dictionary["categories"] as? [[String]]
         if categoriesArray != nil {
             var categoryNames = [String]()
+            
             for category in categoriesArray! {
                 let categoryName = category[0]
+                let categoryKey = category[1]
                 categoryNames.append(categoryName)
+                
+                self.categoriesArray[categoryKey] = categoryName
             }
             categories = categoryNames.joined(separator: ", ")
         } else {
@@ -84,11 +90,33 @@ class Business: NSObject {
         return businesses
     }
     
-    class func searchWithTerm(term: String, completion: @escaping ([Business]?, Error?) -> Void) {
-        _ = YelpClient.sharedInstance.searchWithTerm(term, completion: completion)
+    class func searchWithTerm(latLong:String, term: String?, completion: @escaping ([Business]?, Error?) -> Void) {
+        _ = YelpClient.sharedInstance.searchWithTerm(latLong, term: term, completion: completion)
     }
     
-    class func searchWithTerm(term: String, sort: YelpSortMode?, categories: [String]?, deals: Bool?, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
-        _ = YelpClient.sharedInstance.searchWithTerm(term, sort: sort, categories: categories, deals: deals, completion: completion)
+    class func searchWithTerm(latLong:String, term: String?, sort: YelpSortMode?, categories: [String]?, deals: Bool?, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
+        _ = YelpClient.sharedInstance.searchWithTerm(latLong, term: term, sort: sort, categories: categories, deals: deals, completion: completion)
+    }
+    
+    override var description : String {
+        get {
+            return "Business : name : `\(name ?? "") - address : `\(address ?? "")` - distance : `\(distance ?? "0")` - reviewCount : `\(reviewCount ?? 0)`"
+        }
+    }
+}
+
+extension Array where Element: Business {
+    func getAllCategories() -> [String: String] {
+        var categories = [String: String]()
+        for business in self {
+            categories += business.categoriesArray
+        }
+        return categories
+    }
+}
+
+func += <K, V> (left: inout [K:V], right: [K:V]) {
+    for (k, v) in right {
+        left[k] = v
     }
 }

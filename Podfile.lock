@@ -20,18 +20,33 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - Alamofire (4.5.0)
+  - AlamofireImage (3.2.0):
+    - Alamofire (~> 4.1)
   - BDBOAuth1Manager (1.6.0):
     - AFNetworking/NSURLConnection (~> 2.6.0)
     - AFNetworking/NSURLSession (~> 2.6.0)
+  - Cosmos (11.0.3)
+  - NVActivityIndicatorView (3.7.0):
+    - NVActivityIndicatorView/Presenter (= 3.7.0)
+  - NVActivityIndicatorView/Presenter (3.7.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.5)
+  - Alamofire (~> 4.5)
+  - AlamofireImage (~> 3.2)
   - BDBOAuth1Manager
+  - Cosmos (~> 11.0)
+  - NVActivityIndicatorView
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
   BDBOAuth1Manager: cd5a5872f355ca38180d52ca2dd844f0b0c84797
+  Cosmos: eb506859929f4add2d2aec822a27efb2f718a95d
+  NVActivityIndicatorView: d3738df7e2e476aca0ba6bf32a8c9fbcfc33d64b
 
-PODFILE CHECKSUM: e93d023552e6cb9e3bc0b66e42e1d29f24efef97
+PODFILE CHECKSUM: f69a71b6037d0b9859dd748a538fadb91fdee75e
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.3.1
