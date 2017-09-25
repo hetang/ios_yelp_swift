@@ -1,10 +1,28 @@
-### Basic Yelp client
+# Yelp Client Codepath
+### User can view a list of business nearby. As well as they can filter result by applying distance, sort, category or deal filter.
 
-This is a headless example of how to implement an OAuth 1.0a Yelp API client. The Yelp API provides an application token that allows applications to make unauthenticated requests to their search API.
+Time spent: 16 hrs spent
 
-### Next steps
+Completed User Stories:
+- Search results page
+    - Table rows are dynamic height according to the content height.
+    - Search bar is in the navigation bar
+    - Infinite scroll for business results
+    - User can toggle between map & list view.
+- Filter page.
+    - The filters are: category, sort (best match, distance, highest rated), distance, deals (on/off).
+    - The filters table are organized into sections
+    - Clicking on the "Apply" button is dismissing the filters page and triggering search with the new filter settings.
 
-- Check out `BusinessesViewController.swift` to see how to use the `Business` model.
+Walkthrough of all user stories:
+
+![Video Walkthrough](yelp_recording.gif)
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+## Yelp API
+
+- Check out `BusinessPresenters.swift` to see how to use the `Business` model.
 
 ### Sample request
 
