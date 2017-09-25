@@ -105,8 +105,8 @@ class Business: NSObject {
         _ = YelpClient.sharedInstance.searchWithTerm(latLong, term: term, offset: offset, completion: completion)
     }
     
-    class func searchWithTerm(latLong:String, term: String?, sort: YelpSortMode?, categories: [String]?, deals: Bool?, offset: Int?, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
-        _ = YelpClient.sharedInstance.searchWithTerm(latLong, term: term, sort: sort, categories: categories, deals: deals, offset: offset, completion: completion)
+    class func searchWithTerm(latLong:String, term: String?, sort: YelpSortMode?, distance: YelpRadius?, categories: [String]?, deals: Bool?, offset: Int?, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
+        _ = YelpClient.sharedInstance.searchWithTerm(latLong, term: term, sort: sort, distance: distance, categories: categories, deals: deals, offset: offset, completion: completion)
     }
     
     override var description : String {
@@ -127,7 +127,7 @@ extension Array where Element: Business {
         }
         var result = [YelpCategory]()
         for category in categories {
-            result.append(YelpCategory(key: category.key, value: category.value, isSelected: true))
+            result.append(YelpCategory(key: category.key, value: category.value))
         }
         return result
     }

@@ -11,7 +11,7 @@ import Foundation
 class YelpCategory: NSObject {
     let key: String
     let value: String
-    let isSelected: Bool
+    var isSelected: Bool
     
     init(key: String, value: String, isSelected: Bool = false) {
         self.key = key
@@ -23,13 +23,10 @@ class YelpCategory: NSObject {
 class Filters: NSObject {
     let categories: [YelpCategory]
     
-    let allSorts = YelpSortMode.allValues
-    let selectedSort = YelpSortMode.bestMatched
+    var selectedSort = YelpSortMode.bestMatched
+    var selectedDistance = YelpRadius.auto
     
-    let allDistances = YelpRadius.allValues
-    let selectedDistance = YelpRadius.auto
-    
-    let isOfferDeal: Bool = false
+    var isOfferDeal: Bool = false
     
     init(categories: [YelpCategory]) {
         self.categories = categories

@@ -58,57 +58,10 @@ class BusinessesViewController: UIViewController, NVActivityIndicatorViewable {
         var insets = businessTableView.contentInset
         insets.bottom += InfiniteScrollActivityView.defaultHeight
         businessTableView.contentInset = insets
-        
-        /* Example of Yelp search with more search options specified
-         Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
-         self.businesses = businesses
-         
-         for business in businesses {
-         print(business.name!)
-         print(business.address!)
-         }
-         }
-         */
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    func populateList(searchTerm: String? = nil) {
-        startAnimating(CGSize(width: 40, height: 40), type: .lineSpinFadeLoader)
-        presenter.fetchBusinessInfo(latLong: latLong, searchTerm: searchTerm, completed: { businessesList in
-            self.businesses = businessesList
-            self.businessTableView.reloadData()
-            let allAnnotations = self.businessMapView.annotations
-            self.businessMapView.removeAnnotations(allAnnotations)
-            if let businesses = businessesList {
-                self.addAnnotationsOnMap(businesses: businesses)
-            }
-            self.stopAnimating()
-            
-            self.filters = Filters(categories: self.businesses.getAllCategories())
-        })
-    }
-    
-    func fetchNextBusinesses() {
-        presenter.fetchNextBusiness(latLong: latLong, searchTerm: searchTerm, completed: { businessesList in
-            if let businesses = businessesList {
-                self.businesses.append(contentsOf: businesses)
-                self.businessTableView.reloadData()
-                self.addAnnotationsOnMap(businesses: businesses)
-            }
-            self.isMoreDataLoading = false
-            self.loadingMoreView!.stopAnimating()
-        })
-        
-    }
-    
-    func goToLocation(location: CLLocation) {
-        let span = MKCoordinateSpanMake(0.1, 0.1)
-        let region = MKCoordinateRegionMake(location.coordinate, span)
-        businessMapView.setRegion(region, animated: true)
     }
     
     @IBAction func navigateToMapOrListView(_ sender: Any) {
@@ -135,26 +88,58 @@ class BusinessesViewController: UIViewController, NVActivityIndicatorViewable {
         let navigationController = segue.destination as! UINavigationController
         let filterViewController = navigationController.topViewController as! FilterViewController
         filterViewController.filters = filters
+        filterViewController.delegate = self
+    }
+}
+
+extension BusinessesViewController {
+    /**
+     All Api call are managed in this extension
+     **/
+    func populateList() {
+        startAnimating(CGSize(width: 40, height: 40), type: .lineSpinFadeLoader)
+        presenter.fetchBusinessInfo(latLong: latLong, searchTerm: searchTerm, filters: filters, completed: { businessesList in
+            self.businesses = businessesList
+            self.businessTableView.reloadData()
+            let allAnnotations = self.businessMapView.annotations
+            self.businessMapView.removeAnnotations(allAnnotations)
+            if let businesses = businessesList {
+                self.addAnnotationsOnMap(businesses: businesses)
+            }
+            self.stopAnimating()
+            if(self.filters == nil) {
+                self.filters = Filters(categories: self.businesses.getAllCategories())
+            }
+        })
+    }
+    
+    func fetchNextBusinesses() {
+        presenter.fetchNextBusiness(latLong: latLong, searchTerm: searchTerm, filters: filters, completed: { businessesList in
+            if let businesses = businessesList {
+                self.businesses.append(contentsOf: businesses)
+                self.businessTableView.reloadData()
+                self.addAnnotationsOnMap(businesses: businesses)
+            }
+            self.isMoreDataLoading = false
+            self.loadingMoreView!.stopAnimating()
+        })
+        
     }
 }
 
 extension BusinessesViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (!isMoreDataLoading) {
-            // Calculate the position of one screen length before the bottom of the results
             let scrollViewContentHeight = businessTableView.contentSize.height
             let scrollOffsetThreshold = scrollViewContentHeight - businessTableView.bounds.size.height
             
-            // When the user has scrolled past the threshold, start requesting
             if(scrollView.contentOffset.y > scrollOffsetThreshold && businessTableView.isDragging) {
                 isMoreDataLoading = true
                 
-                // Update position of loadingMoreView, and start loading indicator
                 let frame = CGRect(x: 0, y: businessTableView.contentSize.height, width: businessTableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
                 loadingMoreView?.frame = frame
                 loadingMoreView!.startAnimating()
                 
-                // ... Code to load more results ...
                 fetchNextBusinesses()
             }
         }
@@ -191,15 +176,18 @@ extension BusinessesViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchTerm = searchBar.text {
             if(self.searchTerm != searchTerm) {
-                self.businessTableView.setContentOffset(CGPoint.zero, animated: false)
-                populateList(searchTerm: searchTerm)
+                businessTableView.setContentOffset(CGPoint.zero, animated: false)
                 self.searchTerm = searchTerm
+                filters = nil
+                populateList()
+                
             }
         } else {
             if(searchTerm != "") {
-                self.businessTableView.setContentOffset(CGPoint.zero, animated: false)
-                populateList()
+                businessTableView.setContentOffset(CGPoint.zero, animated: false)
                 searchTerm = ""
+                filters = nil
+                populateList()
             }
         }
         searchBar.resignFirstResponder()
@@ -228,12 +216,19 @@ extension BusinessesViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print ("location service fail: \(error)")
         populateList()
     }
 }
 
 extension BusinessesViewController {
+    /*
+     Map View releated functions
+     */
+    func goToLocation(location: CLLocation) {
+        let span = MKCoordinateSpanMake(0.1, 0.1)
+        let region = MKCoordinateRegionMake(location.coordinate, span)
+        businessMapView.setRegion(region, animated: true)
+    }
     
     func addAnnotationOnMap(business: Business) {
         if(business.latitude != -1 && business.longitude != -1) {
@@ -249,5 +244,12 @@ extension BusinessesViewController {
         for business in businesses  {
             addAnnotationOnMap(business: business)
         }
+    }
+}
+
+extension BusinessesViewController: FilterViewControllerDelegate {
+    func filterViewController(filterViewController: FilterViewController, didUpdateFilters filters: Filters) {
+        self.filters = filters
+        populateList()
     }
 }

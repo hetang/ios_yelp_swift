@@ -33,18 +33,18 @@ enum YelpSortMode: Int {
 }
 
 enum YelpRadius: Decimal {
-    case auto = 0, small = 0.3, medium = 1, large = 5, extraLarge = 20
+    case auto = 0, pointThreeMiles = 482.8, oneMile = 1609.4, fiveMiles = 8046.8, twentyMiles = 32186.9
     
-    static let allValues = [auto, small, medium, large, extraLarge]
+    static let allValues = [auto, pointThreeMiles, oneMile, fiveMiles, twentyMiles]
     
     var description : String {
         switch self {
         // Use Internationalization, as appropriate.
         case .auto: return "Auto";
-        case .small: return "0.3 miles";
-        case .medium: return "1 mile";
-        case .large: return "5 miles";
-        case .extraLarge: return "20 miles";
+        case .pointThreeMiles: return "0.3 miles";
+        case .oneMile: return "1 mile";
+        case .fiveMiles: return "5 miles";
+        case .twentyMiles: return "20 miles";
         }
     }
 }
@@ -72,10 +72,10 @@ class YelpClient: BDBOAuth1RequestOperationManager {
     }
     
     func searchWithTerm(_ latLong: String, term: String?, offset: Int?, completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
-        return searchWithTerm(latLong,term: term, sort: nil, categories: nil, deals: nil, offset: offset, completion: completion)
+        return searchWithTerm(latLong,term: term, sort: nil, distance: nil, categories: nil, deals: nil, offset: offset, completion: completion)
     }
     
-    func searchWithTerm(_ latLong: String, term: String?, sort: YelpSortMode?, categories: [String]?, deals: Bool?, offset: Int?, completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
+    func searchWithTerm(_ latLong: String, term: String?, sort: YelpSortMode?, distance: YelpRadius?, categories: [String]?, deals: Bool?, offset: Int?, completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
         // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
         
         // Default the location to San Francisco
@@ -87,6 +87,10 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         
         if sort != nil {
             parameters["sort"] = sort!.rawValue as AnyObject?
+        }
+        
+        if distance != nil {
+            parameters["radius_filter"] = distance!.rawValue as AnyObject?
         }
         
         if categories != nil && categories!.count > 0 {
@@ -106,7 +110,6 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         return self.get("search", parameters: parameters,
                         success: { (operation: AFHTTPRequestOperation, response: Any) -> Void in
                             if let response = response as? [String: Any]{
-                                print("response: \(String(describing: response))")
                                 let dictionaries = response["businesses"] as? [NSDictionary]
                                 if dictionaries != nil {
                                     completion(Business.businesses(array: dictionaries!), nil)
